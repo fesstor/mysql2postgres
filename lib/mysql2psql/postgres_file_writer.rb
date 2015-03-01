@@ -3,6 +3,7 @@ require 'mysql2psql/postgres_writer'
 class Mysql2psql
   class PostgresFileWriter < PostgresWriter
     def initialize(file)
+      @index_renames_count = 0
       @f = File.open(file, 'w+:UTF-8')
       @f << <<-EOF
 -- MySQL 2 PostgreSQL dump\n
@@ -96,6 +97,9 @@ EOF
 
       table.indexes.each do |index|
         next if index[:primary]
+        if index[:name].length > 63
+          index[:name] = "#{index[:name][0..58]}_#{@index_renames_count+=1}"
+        end
         unique = index[:unique] ? 'UNIQUE ' : nil
         @f << <<-EOF
 DROP INDEX IF EXISTS #{PGconn.quote_ident(index[:name])} CASCADE;

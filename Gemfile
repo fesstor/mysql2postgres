@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 gem 'rake', '~> 10.3'
 gem 'mysql-pr', '~> 2.9'
-gem 'postgres-pr', '~> 0.6'
+gem 'postgres-pr', '0.6.3'
 
 platforms :jruby do
   gem 'activerecord'
@@ -21,3 +21,5 @@ gem 'test-unit'
 group :test do
   gem 'jeweler', '~> 2.0'
 end
+
+# gem 'mysqltopostgres', '0.2.20', :path => './'
